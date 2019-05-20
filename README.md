@@ -2,29 +2,29 @@
 package main
 
 import (
-  "fmt"
-  "sync"
+        "fmt"
+        "sync"
 
-  "github.com/devMYC/alo"
+        "github.com/devMYC/alo"
 )
 
 func main() {
-  var wg sync.WaitGroup
-  var mu alo.AtomicLock
+        var wg sync.WaitGroup
+        var mu alo.AtomicLock
 
-  counter := 0
+        counter := 0
 
-  for i := 0; i < 10; i++ {
-    wg.Add(1)
-    go func() {
-      defer wg.Done()
-      defer mu.Unlock()
-      mu.Lock()
-      counter++
-    }()
-  }
+        for i := 0; i < 10; i++ {
+                wg.Add(1)
+                go func() {
+                        defer wg.Done()
+                        defer mu.Unlock()
+                        mu.Lock()
+                        counter++
+                }()
+        }
 
-  wg.Wait()
-  fmt.Println("Counter =", counter)  // Output: Counter = 10
+        wg.Wait()
+        fmt.Println("Counter =", counter)  // Output: Counter = 10
 }
 ```
