@@ -24,7 +24,7 @@ func (al *AtomicLock) Lock() {
 // Unlock will set `locked` to 0
 func (al *AtomicLock) Unlock() {
 	if al.locked == lockOff {
-		panic(errors.New("alo.Unlock: the lock has already unlocked"))
+		panic(errors.New("alo.Unlock: double unlock"))
 	}
 	for !atomic.CompareAndSwapInt32(&al.locked, lockOn, lockOff) {
 		runtime.Gosched()
